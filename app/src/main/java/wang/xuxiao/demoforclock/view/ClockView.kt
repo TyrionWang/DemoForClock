@@ -97,14 +97,19 @@ class ClockView @JvmOverloads constructor(
         var minute = time()[1]
         var second = time()[2]
 
+        paint.strokeCap = Paint.Cap.ROUND // 线条末端圆形
+
         // 画时针
         paint.color = Color.BLACK
+        paint.strokeWidth = 6f * rem // 定义时钟线宽度
         drawHour(canvas, hour, minute)
 
         // 画分针
+        paint.strokeWidth = 3.5f * rem // 定义时钟线宽度
         drawMinute(canvas, minute, second)
 
         // 画秒针
+        paint.strokeWidth = 2f * rem // 定义秒针线宽度
         paint.color = Color.RED
         drawSecond(canvas, second)
 
@@ -136,9 +141,6 @@ class ClockView @JvmOverloads constructor(
         var hrad = 360f / 12 * hour//计算角度
         var mrad = 360f / 12 / 60 * minute
 
-        paint.strokeWidth = 6f * rem // 定义时钟线宽度
-        paint.strokeCap = Paint.Cap.ROUND // 线条末端圆形
-
         canvas.save()
         canvas.rotate(hrad + mrad, circle_x, circle_y)
         canvas.drawLine(circle_x, 45f * rem, circle_y, height / 2f + 8 * rem, paint)
@@ -152,9 +154,6 @@ class ClockView @JvmOverloads constructor(
         var mrad = 360f / 60 * minute // 分钟角度
 //        var srad = 360f/ 60 / 60 * second // 秒针角度
 
-        paint.strokeWidth = 3.5f * rem // 定义时钟线宽度
-        paint.strokeCap = Paint.Cap.ROUND // 线条末端圆形
-
         canvas.save()
         canvas.rotate(mrad, circle_x, circle_y)
         canvas.drawLine(circle_x, 20f * rem, circle_y, height / 2f + 8 * rem, paint)
@@ -163,10 +162,6 @@ class ClockView @JvmOverloads constructor(
 
     private fun drawSecond(canvas: Canvas, second: Int) {
         var srad = 360f / 60 * second // 秒针角度
-
-        paint.strokeWidth = 2f * rem // 定义时钟线宽度
-        paint.strokeCap = Paint.Cap.ROUND // 线条末端圆形
-        paint.color = Color.RED
 
         canvas.save()
         canvas.rotate(srad, circle_x, circle_y)
@@ -180,7 +175,7 @@ class ClockView @JvmOverloads constructor(
      * */
     private fun time(): Array<Int> {
         var calendar: Calendar = Calendar.getInstance()
-        return arrayOf(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND))
+        return arrayOf(calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND))
     }
 
 }
